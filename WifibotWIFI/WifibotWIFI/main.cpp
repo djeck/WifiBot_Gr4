@@ -2,6 +2,7 @@
 #include <stdlib.h>
 
 #include "WifibotClient.h"
+#include "FonctionsBasiques.h"
 
 #define IP_ADRESSE "192.168.1.77"
 #define PORT	15020
@@ -40,13 +41,52 @@ void main(void)
 	/*..............*/
 	
 	SensorData sensors_data;
-	int i = 0;
 	while(1)
 	{
 		unsigned char flags = 128+32+64+16+1;
+		
+		//printf("Batterie : %d\n", sensors_data.BatVoltage);
+		/*for (int i = 0; i < 100000; i++) {
+			for (int j = 0; j < 5000; j++);
+		}
+			robot.GetSensorData(&sensors_data);
+			avancer(&robot, 50, 50);
+			//printf("Batterie : %d\n", sensors_data.BatVoltage);
+			printf("Capteur IR gauche : %d\n", sensors_data.IRLeft);
+			printf("Capteur IR droite : %d\n", sensors_data.IRRight);
+			printf("Capteur IR2 gauche : %d\n", sensors_data.IRLeft2);
+			printf("Capteur IR2 droite : %d\n", sensors_data.IRRight2);
+			printf("Odometrie gauche : %ld\n", sensors_data.OdometryLeft);
+			printf("Odometrie droite : %ld\n", sensors_data.OdometryRight);
+			printf("Vitesse droite : %d\n", sensors_data.SpeedFrontRight);
+			printf("-------------------------------------------------------\n");
+			for (int i = 0; i < 100000; i++) {
+				for (int j = 0; j < 5000; j++);
+			}
+			avancer(&robot, 100, 100);
+			printf("Vitesse droite : %d\n", sensors_data.SpeedFrontRight);
+			printf("-------------------------------------------------------\n");
+			*/
+
+		robot.GetSensorData(&sensors_data);
+		avancer(&robot, 50, 50);
+		printf("Batterie : %d\n", sensors_data.BatVoltage); 
+		//robot.SendCommand(84,84,flags);
+		printf("Capteur IR gauche : %d\n", sensors_data.IRLeft);
+		printf("Capteur IR droit : %d\n", sensors_data.IRRight);
+		printf("Vitesse droite : %d\n", sensors_data.SpeedFrontRight);
+		if (obstacleGauche(&sensors_data) && obstableDroite(&sensors_data))
+			//robot.SendCommand(0, 0, flags);
+			avancer(&robot, 0, 0);
+		else if (obstableDroite(&sensors_data))
+			//robot.SendCommand(84, 0, flags);
+			avancer(&robot, 50, 0);
+		else if (obstacleGauche(&sensors_data))
+			//robot.SendCommand(0, 84, flags);
+			avancer(&robot, 0, 50);
 
 
-
+		Sleep(100);
 	}	
 }
 

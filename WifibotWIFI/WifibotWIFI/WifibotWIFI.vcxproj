@@ -77,10 +77,12 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="FonctionsBasiques.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="WifibotClient.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="FonctionsBasiques.h" />
     <ClInclude Include="WifibotClient.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
