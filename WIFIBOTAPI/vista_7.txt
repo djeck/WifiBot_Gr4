@@ -1,0 +1,15 @@
+Step to follow:
+
+1.- run "secpol.msc"
+
+2.- Expand "Local Policies"
+
+3.- Click on the "Security Options"
+
+4.- On the Right PAN, select all items with the name "User Account Control" and either "disable" it or "do not prompt" mode for this.
+
+5.- Restart the computer and enjoy.
+
+For windows 7
+Run it using admin mode
+ 
