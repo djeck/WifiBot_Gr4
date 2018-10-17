@@ -14,12 +14,35 @@
 #define THRESH_RIGHT 30 // seuils infrarouge pour la detection d'obstacle
 #define THRESH_LEFT 30
 
+/*
+ * @brief Bibliotheques fournissant les fonctionnalites de base
+ * du robot (deplacement, capteurs, ...)
+ */
 class RobotLibrary {
 public: 
+	/*
+	 * @brief Connection au robot et initialisation
+	 */
 	RobotLibrary();
+	/*
+	 * @brief Reception des donnees des capteurs
+	 */
 	void updateSensorData();
+	/*
+	 * @brief Deplacement du robot
+	 * @arg right vitesse de rotation de la roue droite
+	 * @arg left vitesse de rotation de la roue gauche
+	 */
 	void move(int right, int left);
+	/*
+	 * @brief Detection d'obstacle avec le capteur IR droit
+	 * @return true si un obstacle est detecter, false sinon
+	 */
 	bool obstableDroite();
+	/*
+	 * @brief Detection d'obstacle avec le capteur IR gauche
+	 * @return true si un obstacle est detecter, false sinon
+	 */
 	bool obstacleGauche();
 	void forward();
 	void backward();
