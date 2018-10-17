@@ -13,6 +13,8 @@ RobotLibrary::RobotLibrary(): robot()
 		{
 			printf("Connection established...\n");
 		}
+	x = 0;
+	y = 0;
 }
 
 void RobotLibrary::move(int right, int left) {
@@ -24,8 +26,21 @@ void RobotLibrary::move(int right, int left) {
 	robot.SendCommand(r, l, flags);
 }
 
+void RobotLibrary::processOdometry() {
+	long d = sensors_data.OdometryRight + sensors_data.OdometryLeft; // distance parcourue
+	double alpha = atan(sensors_data.OdometryRight/sensors_data.OdometryLeft - 1);
+	x += d*cos(alpha);
+	y += d*sin(alpha);
+	
+	// sensors_data.OdometryRight et sensors_data.OdometryLeft doivent etre remis a 0
+	sensors_data.OdometryRight = 0;
+	sensors_data.OdometryLeft = 0;
+}
+
 void RobotLibrary::updateSensorDate() {
 	robot.GetSensorData(&sensors_data);
+	
+	processOdometry();
 }
 
 bool RobotLibrary::obstableDroite() {

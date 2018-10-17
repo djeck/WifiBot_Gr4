@@ -319,42 +319,22 @@ void WifibotClient::GetSensorData(SensorData *RobotSensors)
 			buffso_send[13]=(unsigned char)(odoR >> 16);
 			buffso_send[14]=(unsigned char)(odoR >> 24);
 			buffso_send[15]=rcvbuftemp[4];
-			buffso_send[16]=rcvbuftemp[12];
-			//float tmpx = (((float)((unsigned char)buffso_send[2])*0.194-37.5));//data to filter	30A			
-			float tmpx = (((float)((unsigned char)buffso_send[2])));
-			//float tmpx = (((float)((unsigned char)buffso_send[2])*0.129-25.0));//data to filter 20A			
+			buffso_send[16]=rcvbuftemp[12];	
+			float tmpx = (((float)((unsigned char)buffso_send[2])));		
 			RobotSensors->BatVoltage=(unsigned char)buffso_send[0];
-			//RobotSensors->SpeedFrontLeft=(int)buffso_send[1];
 			RobotSensors->SpeedFrontLeft=myspeedL;
-		//	RobotSensors->SpeedRearLeft=(int)(wiix);
-			//RobotSensors->SpeedFrontRight=(int)buffso_send[3];
 			RobotSensors->SpeedFrontRight=myspeedR;
-		//	RobotSensors->SpeedRearRight=(int)(wiix);
 			RobotSensors->IRLeft=(unsigned char)buffso_send[5];
 			RobotSensors->IRRight=(unsigned char)buffso_send[6];
 			RobotSensors->IRLeft2=(unsigned char)buffso_send[15];
 			RobotSensors->IRRight2=(unsigned char)buffso_send[16];
 			RobotSensors->OdometryLeft = *(long *)(buffso_send+7);
 			RobotSensors->OdometryRight = *(long *)(buffso_send+11);	
-			//printf(" IR Rear %d \n",RobotSensors->IRLeft2);
 		}
 	}
 	else
 	{
 #ifndef udpnew
-		/*//float tmpx = (((float)((unsigned char)rcvbuftemp[2])*0.194-37.5));//data to filter	30A			
-		float tmpx = (((float)((unsigned char)buffso_rcvOUT[87])*0.129-25.0));//data to filter 20A			
-		float wiix = ((float)mywiifilter.iir_filter(tmpx*10,&mywiifilter.iir1));
-		RobotSensors->BatVoltage=(unsigned char)buffso_rcvOUT[85];
-		RobotSensors->SpeedFrontLeft=(int)buffso_rcvOUT[86];
-		RobotSensors->SpeedRearLeft=(int)(-wiix);
-		RobotSensors->SpeedFrontRight=(int)buffso_rcvOUT[88];
-		RobotSensors->SpeedRearRight=(int)(-wiix);
-		RobotSensors->IRLeft=(unsigned char)buffso_rcvOUT[90];
-		RobotSensors->IRRight=(unsigned char)buffso_rcvOUT[91];
-		RobotSensors->OdometryLeft = *(long *)(buffso_rcvOUT+92);
-		RobotSensors->OdometryRight = *(long *)(buffso_rcvOUT+96);	
-		*/
 		RobotSensors->BatVoltage=(unsigned char)buffso_rcvOUT[93]-20;
 		RobotSensors->SpeedFrontLeft=(int)buffso_rcvOUT[94];
 		RobotSensors->SpeedRearLeft=(int)buffso_rcvOUT[95];
@@ -371,9 +351,6 @@ void WifibotClient::GetSensorData(SensorData *RobotSensors)
 			char buffso_send[17];
 			buffso_send[0]=(char)(rcvbuftemp[2]);//GetADC(hUSB,0x48); not speed but batery level
 			
-			//buffso_send[1]=(char)(((int)((rcvbuftemp[1] << 8) + rcvbuftemp[0]))/5);
-			//if (buffso_send[1] > 32767) buffso_send[1]=buffso_send[1]-65536;
-			
 			int myspeedL=(int)((rcvbuftemp[1] << 8) + rcvbuftemp[0]);
 			if (myspeedL > 32767) myspeedL=myspeedL-65536;
 			myspeedL=myspeedL/5;
@@ -382,8 +359,6 @@ void WifibotClient::GetSensorData(SensorData *RobotSensors)
 			long  odoL = ((((long)rcvbuftemp[8] << 24))+(((long)rcvbuftemp[7] << 16))+(((long)rcvbuftemp[6] << 8))+((long)rcvbuftemp[5]));
 			long odoR = ((((long)rcvbuftemp[16] << 24))+(((long)rcvbuftemp[15] << 16))+(((long)rcvbuftemp[14] << 8))+((long)rcvbuftemp[13]));
 			buffso_send[2]=(char)(rcvbuftemp[17]);
-			//buffso_send[3]=(char)(((int)(rcvbuftemp[10] << 8) + rcvbuftemp[9])/5);
-			//if (buffso_send[3] > 32767) buffso_send[3]=buffso_send[3]-65536;
 			
 			int myspeedR=(int)((rcvbuftemp[10] << 8) + rcvbuftemp[9]);
 			if (myspeedR > 32767) myspeedR=myspeedR-65536;
@@ -403,17 +378,11 @@ void WifibotClient::GetSensorData(SensorData *RobotSensors)
 			buffso_send[14]=(char)(odoR >> 24);
 			buffso_send[15]=rcvbuftemp[4];
 			buffso_send[16]=rcvbuftemp[12];
-			//float tmpx = (((float)((unsigned char)buffso_send[2])*0.194-37.5));//data to filter	30A			
-			//float tmpx = (((float)((unsigned char)buffso_send[2])*0.129-25.0));//data to filter 20A			
+		
 			float tmpx = (((float)((unsigned char)buffso_send[2])));
-//			float wiix = ((float)mywiifilter.iir_filter(tmpx,&mywiifilter.iir1));
 			RobotSensors->BatVoltage=(unsigned char)buffso_send[0];
-			//RobotSensors->SpeedFrontLeft=(int)buffso_send[1];
 			RobotSensors->SpeedFrontLeft=myspeedL;
-//			RobotSensors->SpeedRearLeft=(int)(wiix);
-			//RobotSensors->SpeedFrontRight=(int)buffso_send[3];
 			RobotSensors->SpeedFrontRight=myspeedR;
-		//	RobotSensors->SpeedRearRight=(int)(wiix);
 			RobotSensors->IRLeft=(unsigned char)buffso_send[5];
 			RobotSensors->IRRight=(unsigned char)buffso_send[6];
 			RobotSensors->IRLeft2=(unsigned char)buffso_send[15];

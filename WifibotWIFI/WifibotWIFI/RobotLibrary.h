@@ -27,7 +27,9 @@ public:
 	void right();
 	void stop();
 	SensorData* getData();
+	void processOdometry();
 private: 
 	WifibotClient robot;
 	SensorData sensors_data;
+	double x, y;
 };
