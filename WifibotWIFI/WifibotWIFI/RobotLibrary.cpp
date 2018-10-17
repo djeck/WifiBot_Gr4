@@ -13,6 +13,10 @@ RobotLibrary::RobotLibrary(): robot()
 		{
 			printf("Connection established...\n");
 		}
+		
+	//initialisation odometrie
+	old_r = sensors_data.OdometryRight;
+	old_l = sensors_data.OdometryLeft;
 	x = 0;
 	y = 0;
 }
@@ -27,14 +31,24 @@ void RobotLibrary::move(int right, int left) {
 }
 
 void RobotLibrary::processOdometry() {
-	long d = sensors_data.OdometryRight + sensors_data.OdometryLeft; // distance parcourue
-	double alpha = atan(sensors_data.OdometryRight/sensors_data.OdometryLeft - 1);
+	long r = sensors_data.OdometryRight - old_r;
+	long l = sensors_data.OdometryLeft - old_l;
+	long d = r + l; // distance parcourue
+	double alpha = atan(r/l - 1);
 	x += d*cos(alpha);
 	y += d*sin(alpha);
 	
-	// sensors_data.OdometryRight et sensors_data.OdometryLeft doivent etre remis a 0
-	sensors_data.OdometryRight = 0;
-	sensors_data.OdometryLeft = 0;
+	// doivent etre remis a 0
+	old_r = sensors_data.OdometryRight;
+	old_l = sensors_data.OdometryLeft;
+}
+
+double RobotLibrary::getX() {
+	return x;
+}
+
+double RobotLibrary::getY() {
+	return y;
 }
 
 void RobotLibrary::updateSensorDate() {

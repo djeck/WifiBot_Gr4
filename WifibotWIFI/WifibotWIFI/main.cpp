@@ -27,17 +27,17 @@ void main(void)
 	{
 		library.updateSensorData();
 		
-		library.avancer(50, 50);
+		library.move(50, 50);
 		printf("Batterie : %d\n", library.getData()->BatVoltage); 
 		printf("Capteur IR gauche : %d\n", library.getData()->IRLeft);
 		printf("Capteur IR droit : %d\n", library.getData()->IRRight);
 		printf("Vitesse droite : %d\n", library.getData()->SpeedFrontRight);
 		if (library.obstacleGauche() && library.obstableDroite())
-			library.avancer(0, 0);
+			library.move(0, 0);
 		else if (library.obstableDroite())
-			library.avancer(50, 0);
+			library.move(50, 0);
 		else if (library.obstacleGauche())
-			library.avancer(0, 50);
+			library.move(0, 50);
 
 
 		Sleep(100);
