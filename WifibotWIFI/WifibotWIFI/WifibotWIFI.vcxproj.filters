@@ -21,7 +21,7 @@
     <ClCompile Include="WifibotClient.cpp">
       <Filter>Fichiers sources</Filter>
     </ClCompile>
-    <ClCompile Include="FonctionsBasiques.cpp">
+    <ClCompile Include="RobotLibrary.cpp">
       <Filter>Fichiers sources</Filter>
     </ClCompile>
   </ItemGroup>
@@ -29,7 +29,7 @@
     <ClInclude Include="WifibotClient.h">
       <Filter>Fichiers sources</Filter>
     </ClInclude>
-    <ClInclude Include="FonctionsBasiques.h">
+    <ClInclude Include="RobotLibrary.h">
       <Filter>Fichiers sources</Filter>
     </ClInclude>
   </ItemGroup>
