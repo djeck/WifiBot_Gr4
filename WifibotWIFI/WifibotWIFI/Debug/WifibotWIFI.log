@@ -1,3 +1,4 @@
-﻿  main.cpp
-c:\users\8672756\downloads\wifibotwifi\wifibotwifi\main.cpp(42): warning C4101: 'sensors_data' : variable locale non référencée
-  WifibotWIFI.vcxproj -> C:\Users\8672756\Downloads\WifibotWIFI\Debug\WifibotWIFI.exe
+﻿  RobotLibrary.cpp
+  main.cpp
+  Génération de code en cours...
+  WifibotWIFI.vcxproj -> \\Mac\Home\Documents\GitHub\WifiBot_Gr4\WifibotWIFI\Debug\WifibotWIFI.exe

@@ -15,11 +15,12 @@ RobotLibrary::RobotLibrary(): robot()
 		}
 		
 	//initialisation odometrie
-	old_r = sensors_data.OdometryRight;
-	old_l = sensors_data.OdometryLeft;
-	x = 0;
-	y = 0;
-	orientation=0;
+		old_r = 0;// sensors_data.OdometryRight;
+		old_l = 0;// sensors_data.OdometryLeft;
+	x = 0.0;
+	y = 0.0;
+	orientation=0.0;
+	compteur = 0;
 }
 
 void RobotLibrary::move(int right, int left) {
@@ -31,17 +32,39 @@ void RobotLibrary::move(int right, int left) {
 	robot.SendCommand(r, l, flags);
 }
 
-WifibotClient* getClient()
+WifibotClient* RobotLibrary::getClient()
 {
 	return &robot;
 }
 
 void RobotLibrary::processOdometry() {
+	compteur++;
 	long r = sensors_data.OdometryRight - old_r;
 	long l = sensors_data.OdometryLeft - old_l;
-	long d = r + l; // distance parcourue
-	double alpha = atan(r/l - 1);
+	if (r < 0)
+		r = sensors_data.OdometryRight;
+	if (l < 0)
+		l = sensors_data.OdometryLeft;
+	if (compteur < 2) {
+		l = 0;
+		r = 0;
+	}
+
+	double d = ((double) r + (double) l)/2.0; // distance parcourue
+	if (r == l) {
+		l += 1;
+	}
+	double R = (E / 2 * (r + l) / (r - l));
+	double alpha = d/R;
+	/*if (l == 0)
+		alpha = -3.141592654 / 2;
+	else
+		alpha = atan(r/l - 1);*/
 	orientation += alpha;
+	printf("l : %ld\n", l);
+	printf("r : %ld\n", r);
+	printf("alpha : %f\n", alpha);
+	printf("Orientation : %f\n", orientation);
 	x += d*cos(orientation);
 	y += d*sin(orientation);
 	
@@ -62,7 +85,7 @@ double RobotLibrary::getOrientation() {
 	return orientation;
 }
 
-void RobotLibrary::updateSensorDate() {
+void RobotLibrary::updateSensorData() {
 	robot.GetSensorData(&sensors_data);
 	
 	processOdometry();
