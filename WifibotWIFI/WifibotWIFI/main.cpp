@@ -2,10 +2,7 @@
 #include <stdlib.h>
 
 #include "WifibotClient.h"
-#include "FonctionsBasiques.h"
-
-#define IP_ADRESSE "192.168.1.77"
-#define PORT	15020
+#include "RobotLibrary.h"
 
 int SharpLUT[]={150,150,150,150,150,150,150,150,150,150,150,150,150,150,150,150,150,150,150,150,150,150,150,150,150,150,150,150,150,150,150,150,150,150,150,150,150,150,150,150,150,150,150,150,150,150,103,102,101,100,99,
           96,95,90,88,87,86,85,84,83,82,81,80,79,77,75,74,73,72,71,70,69,68,67,66,65,65,64,64,63,62,61,61,60,60,59,59,58,58,57,57,56,56,56,55,55,55,54,54,54,53,
@@ -16,74 +13,31 @@ int SharpLUT[]={150,150,150,150,150,150,150,150,150,150,150,150,150,150,150,150,
 
 void main(void)
 {
-
-	WifibotClient robot;
-
 	/*.........................*/
 	/* Connection to the robot */
 	/*.........................*/
-		
-	bool rep = robot.ConnectToRobot(IP_ADRESSE, PORT);
-	if( rep )
-	{
-		printf("Connection failed...\n");
-		getchar();
-		return;
-	}
-	else
-	{
-		printf("Connection established...\n");
-	}
+	RobotLibrary library;
 
 
 	/*..............*/
 	/* Main program */
 	/*..............*/
 	
-	SensorData sensors_data;
 	while(1)
 	{
-		unsigned char flags = 128+32+64+16+1;
+		library.updateSensorData();
 		
-		//printf("Batterie : %d\n", sensors_data.BatVoltage);
-		/*for (int i = 0; i < 100000; i++) {
-			for (int j = 0; j < 5000; j++);
-		}
-			robot.GetSensorData(&sensors_data);
-			avancer(&robot, 50, 50);
-			//printf("Batterie : %d\n", sensors_data.BatVoltage);
-			printf("Capteur IR gauche : %d\n", sensors_data.IRLeft);
-			printf("Capteur IR droite : %d\n", sensors_data.IRRight);
-			printf("Capteur IR2 gauche : %d\n", sensors_data.IRLeft2);
-			printf("Capteur IR2 droite : %d\n", sensors_data.IRRight2);
-			printf("Odometrie gauche : %ld\n", sensors_data.OdometryLeft);
-			printf("Odometrie droite : %ld\n", sensors_data.OdometryRight);
-			printf("Vitesse droite : %d\n", sensors_data.SpeedFrontRight);
-			printf("-------------------------------------------------------\n");
-			for (int i = 0; i < 100000; i++) {
-				for (int j = 0; j < 5000; j++);
-			}
-			avancer(&robot, 100, 100);
-			printf("Vitesse droite : %d\n", sensors_data.SpeedFrontRight);
-			printf("-------------------------------------------------------\n");
-			*/
-
-		robot.GetSensorData(&sensors_data);
-		avancer(&robot, 50, 50);
-		printf("Batterie : %d\n", sensors_data.BatVoltage); 
-		//robot.SendCommand(84,84,flags);
-		printf("Capteur IR gauche : %d\n", sensors_data.IRLeft);
-		printf("Capteur IR droit : %d\n", sensors_data.IRRight);
-		printf("Vitesse droite : %d\n", sensors_data.SpeedFrontRight);
-		if (obstacleGauche(&sensors_data) && obstableDroite(&sensors_data))
-			//robot.SendCommand(0, 0, flags);
-			avancer(&robot, 0, 0);
-		else if (obstableDroite(&sensors_data))
-			//robot.SendCommand(84, 0, flags);
-			avancer(&robot, 50, 0);
-		else if (obstacleGauche(&sensors_data))
-			//robot.SendCommand(0, 84, flags);
-			avancer(&robot, 0, 50);
+		library.avancer(50, 50);
+		printf("Batterie : %d\n", library.getData()->BatVoltage); 
+		printf("Capteur IR gauche : %d\n", library.getData()->IRLeft);
+		printf("Capteur IR droit : %d\n", library.getData()->IRRight);
+		printf("Vitesse droite : %d\n", library.getData()->SpeedFrontRight);
+		if (library.obstacleGauche() && library.obstableDroite())
+			library.avancer(0, 0);
+		else if (library.obstableDroite())
+			library.avancer(50, 0);
+		else if (library.obstacleGauche())
+			library.avancer(0, 50);
 
 
 		Sleep(100);

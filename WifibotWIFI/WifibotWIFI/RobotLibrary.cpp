@@ -1,34 +1,76 @@
-#include "wifibotClient.h"
+#include "RobotLibrary.h"
 
+RobotLibrary::RobotLibrary(): robot()
+{
+	bool rep = robot.ConnectToRobot(IP_ADRESSE, PORT);
+		if (rep)
+		{
+			printf("Connection failed...\n");
+			getchar();
+			return;
+		}
+		else
+		{
+			printf("Connection established...\n");
+		}
+}
 
+void RobotLibrary::move(int right, int left) {
+	unsigned char flags = 128 + 32 + ((left>=0) ? 1 : 0) * 64 + ((right>=0) ? 1 : 0)*16 + 1;
+	int r, l;
+	
+	r = abs((int)(255 * right / 100.f));
+	l = abs((int)(255 * left / 100.f));
+	robot.SendCommand(r, l, flags);
+}
 
-RobotLibrary::forward(){
+void RobotLibrary::updateSensorDate() {
+	robot.GetSensorData(&sensors_data);
+}
+
+bool RobotLibrary::obstableDroite() {
+	if (sensors_data.IRRight > THRESH_RIGHT)
+		return true;
+	else
+		return false;
+}
+
+bool RobotLibrary::obstacleGauche() {
+	if (sensors_data.IRLeft > THRESH_LEFT)
+		return true;
+	else
+		return false;
+}
+
+void RobotLibrary::forward(){
+	robot.SendCommand(140, 140, FLAG_FORWARD_DEFAULT);
+	}
 	
-	WifibotClient::SendCommand(125,125,flags)
+void RobotLibrary::backward(){
+	
+	robot.SendCommand(148, 148, FLAG_BACKWARD_DEFAULT);
 	
 	}
 	
-RobotLibrary::backward(){
+void RobotLibrary::left(){
 	
-	WifibotClient::SendCommand(-125,-125,flags)
-	
-	}
-	
-RobotLibrary::left(){
-	
-	WifibotClient::SendCommand(-125,125,flags)
+	robot.SendCommand(125, 125, FLAG_LEFT_DEFAULT);
 	
 	}
 	
-RobotLibrary::right(){
+void RobotLibrary::right(){
 	
-	WifibotClient::SendCommand(125,-125,flags)
-	
-	}
-	
-RobotLibrary::stop(){
-	
-	WifibotClient::SendCommand(0,0,flags)
+	robot.SendCommand(125, 125, FLAG_RIGHT_DEFAULT);
 	
 	}
+	
+void RobotLibrary::stop(){
+	
+	robot.SendCommand(0, 0, FLAG_STOP_DEFAULT);
+	
+	}
+
+SensorData* RobotLibrary::getData() {
+	return &sensors_data;
+}
 	
