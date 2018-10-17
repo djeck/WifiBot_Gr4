@@ -51,7 +51,6 @@ public:
 	void stop();
 	SensorData* getData();
 	void processOdometry();
-	WifibotClient* getClient();
 	
 	double getX();
 	double getY();

@@ -31,11 +31,6 @@ void RobotLibrary::move(int right, int left) {
 	robot.SendCommand(r, l, flags);
 }
 
-WifibotClient* getClient()
-{
-	return &robot;
-}
-
 void RobotLibrary::processOdometry() {
 	long r = sensors_data.OdometryRight - old_r;
 	long l = sensors_data.OdometryLeft - old_l;
