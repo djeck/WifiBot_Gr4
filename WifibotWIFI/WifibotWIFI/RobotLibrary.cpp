@@ -19,6 +19,7 @@ RobotLibrary::RobotLibrary(): robot()
 	old_l = sensors_data.OdometryLeft;
 	x = 0;
 	y = 0;
+	orientation=0;
 }
 
 void RobotLibrary::move(int right, int left) {
@@ -30,13 +31,19 @@ void RobotLibrary::move(int right, int left) {
 	robot.SendCommand(r, l, flags);
 }
 
+WifibotClient* getClient()
+{
+	return &robot;
+}
+
 void RobotLibrary::processOdometry() {
 	long r = sensors_data.OdometryRight - old_r;
 	long l = sensors_data.OdometryLeft - old_l;
 	long d = r + l; // distance parcourue
 	double alpha = atan(r/l - 1);
-	x += d*cos(alpha);
-	y += d*sin(alpha);
+	orientation += alpha;
+	x += d*cos(orientation);
+	y += d*sin(orientation);
 	
 	// doivent etre remis a 0
 	old_r = sensors_data.OdometryRight;
@@ -49,6 +56,10 @@ double RobotLibrary::getX() {
 
 double RobotLibrary::getY() {
 	return y;
+}
+
+double RobotLibrary::getOrientation() {
+	return orientation;
 }
 
 void RobotLibrary::updateSensorDate() {

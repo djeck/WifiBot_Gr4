@@ -51,12 +51,15 @@ public:
 	void stop();
 	SensorData* getData();
 	void processOdometry();
+	WifibotClient* getClient();
 	
 	double getX();
 	double getY();
+	double getOrientation();
 private: 
 	WifibotClient robot;
 	SensorData sensors_data;
 	double x, y;
 	long old_r, old_l;
+	double orientation;
 };
