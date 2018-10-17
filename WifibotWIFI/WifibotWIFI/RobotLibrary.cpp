@@ -62,7 +62,7 @@ double RobotLibrary::getOrientation() {
 	return orientation;
 }
 
-void RobotLibrary::updateSensorDate() {
+void RobotLibrary::updateSensorData() {
 	robot.GetSensorData(&sensors_data);
 	
 	processOdometry();
