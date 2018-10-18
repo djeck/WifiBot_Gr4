@@ -13,6 +13,7 @@
 
 #define THRESH_RIGHT 30 // seuils infrarouge pour la detection d'obstacle
 #define THRESH_LEFT 30
+#define E 25 // Espacement entre les deux rangés de roue
 
 /*
  * @brief Bibliotheques fournissant les fonctionnalites de base
@@ -51,6 +52,7 @@ public:
 	void stop();
 	SensorData* getData();
 	void processOdometry();
+	WifibotClient* getClient();
 	
 	double getX();
 	double getY();
@@ -61,4 +63,5 @@ private:
 	double x, y;
 	long old_r, old_l;
 	double orientation;
+	int compteur;
 };

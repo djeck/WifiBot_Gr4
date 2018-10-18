@@ -32,6 +32,10 @@ void main(void)
 		printf("Capteur IR gauche : %d\n", library.getData()->IRLeft);
 		printf("Capteur IR droit : %d\n", library.getData()->IRRight);
 		printf("Vitesse droite : %d\n", library.getData()->SpeedFrontRight);
+		printf("Odometrie roue droite : %ld\n", library.getData()->OdometryRight);
+		printf("Odometrie roue gauche : %ld\n", library.getData()->OdometryLeft);
+		printf("X : %f\n", library.getX());
+		printf("Y : %f\n", library.getY());
 		if (library.obstacleGauche() && library.obstableDroite())
 			library.move(0, 0);
 		else if (library.obstableDroite())
@@ -40,7 +44,7 @@ void main(void)
 			library.move(0, 50);
 
 
-		Sleep(100);
+		Sleep(500);
 	}	
 }
 
