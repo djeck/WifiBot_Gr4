@@ -105,33 +105,36 @@ bool RobotLibrary::obstacleGauche() {
 		return false;
 }
 
-void RobotLibrary::forward(){
-	robot.SendCommand(140, 140, FLAG_FORWARD_DEFAULT);
-	}
-	
-void RobotLibrary::backward(){
-	
-	robot.SendCommand(148, 148, FLAG_BACKWARD_DEFAULT);
-	
-	}
-	
-void RobotLibrary::left(){
-	
-	robot.SendCommand(125, 125, FLAG_LEFT_DEFAULT);
-	
-	}
-	
-void RobotLibrary::right(){
-	
-	robot.SendCommand(125, 125, FLAG_RIGHT_DEFAULT);
-	
-	}
-	
-void RobotLibrary::stop(){
-	
-	robot.SendCommand(0, 0, FLAG_STOP_DEFAULT);
-	
-	}
+void RobotLibrary::forward() {
+	//robot.SendCommand(90, 90, FLAG_FORWARD_DEFAULT);
+	move(WHEELS_FORWARD, WHEELS_FORWARD);
+}
+
+void RobotLibrary::backward() {
+
+	//robot.SendCommand(148, 148, FLAG_BACKWARD_DEFAULT);
+	move(WHEELS_BACKWARD, WHEELS_BACKWARD);
+
+}
+
+void RobotLibrary::left() {
+
+	//robot.SendCommand(125, 125, FLAG_LEFT_DEFAULT);
+	move(WHEELS_BACKWARD, WHEELS_FORWARD);
+
+}
+
+void RobotLibrary::right() {
+	//robot.SendCommand(125, 125, FLAG_RIGHT_DEFAULT);
+	move(WHEELS_FORWARD, WHEELS_BACKWARD);
+
+}
+
+void RobotLibrary::stop() {
+
+	move(WHEELS_DEFAULT, WHEELS_DEFAULT);
+
+}
 
 SensorData* RobotLibrary::getData() {
 	return &sensors_data;

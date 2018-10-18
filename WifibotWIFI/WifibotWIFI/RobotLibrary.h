@@ -2,18 +2,17 @@
 
 //#pragma once 
 
-#define FLAG_BACKWARD_DEFAULT 128+32+1
-#define FLAG_FORWARD_DEFAULT 128+32+64+16+1
-#define FLAG_RIGHT_DEFAULT 128+32+64+1
-#define FLAG_LEFT_DEFAULT 128+32+16+1
-#define FLAG_STOP_DEFAULT 64+16+1
+#define WHEELS_FORWARD 50
+#define WHEELS_BACKWARD -50
+#define WHEELS_DEFAULT 0
+
 #define UINT8_t unsigned char 
 #define IP_ADRESSE "192.168.1.77"
 #define PORT	15020
 
 #define THRESH_RIGHT 30 // seuils infrarouge pour la detection d'obstacle
 #define THRESH_LEFT 30
-#define E 25 // Espacement entre les deux rangés de roue
+#define E 25 // Espacement entre les deux rangï¿½s de roue
 
 /*
  * @brief Bibliotheques fournissant les fonctionnalites de base
