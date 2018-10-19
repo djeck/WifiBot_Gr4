@@ -136,6 +136,18 @@ void RobotLibrary::stop() {
 
 }
 
+int RobotLibrary::getDistance(side_IRSens side, int *LUT)
+{
+	if (side == LEFT)
+	{
+		return LUT[sensors_data.IRLeft];
+	}
+	else
+	{
+		return LUT[sensors_data.IRRight];
+	}
+}
+
 SensorData* RobotLibrary::getData() {
 	return &sensors_data;
 }

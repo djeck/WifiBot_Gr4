@@ -14,6 +14,8 @@
 #define THRESH_LEFT 30
 #define E 25 // Espacement entre les deux rang�s de roue
 
+enum side_IRSens { RIGHT, LEFT };
+
 /*
  * @brief Bibliotheques fournissant les fonctionnalites de base
  * du robot (deplacement, capteurs, ...)
@@ -56,6 +58,7 @@ public:
 	double getX();
 	double getY();
 	double getOrientation();
+	int getDistance(enum side_IRSens side, int *LUT);
 private: 
 	WifibotClient robot;
 	SensorData sensors_data;
