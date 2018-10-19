@@ -135,7 +135,6 @@ void RobotLibrary::stop() {
 	move(WHEELS_DEFAULT, WHEELS_DEFAULT);
 
 }
-<<<<<<< HEAD
 
 int RobotLibrary::getDistance(side_IRSens side, int *LUT)
 {
@@ -153,10 +152,6 @@ SensorData* RobotLibrary::getData() {
 	return &sensors_data;
 }
 	
-=======
-
 SensorData* RobotLibrary::getData() {
 	return &sensors_data;
 }
-	
->>>>>>> master
