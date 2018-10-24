@@ -18,6 +18,7 @@ Projet de Robotique et perception, groupe 4: Localisation
 - Conclusion
 
 ## Membres du projet:
+	- Bouchaïb Lena
 	- Caillot Antoine
 	- Detrez Aubin
 	- Donnet Marie
