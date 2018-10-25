@@ -1,3 +1,5 @@
+#include <math.h>
+
 #include "WifibotClient.h"
 
 //#pragma once 
