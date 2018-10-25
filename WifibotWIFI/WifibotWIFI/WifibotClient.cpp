@@ -44,7 +44,9 @@ bool WifibotClient::ConnectToRobot(char* ip,int port)
 		sprintf_s(szServerAddress,"%s",ip);
 		int iPort=port;
 
+#ifdef WIN32
 		WSAStartup(MAKEWORD(2,2),&wsatcp);
+#endif
 
 		memset(&sintcp,0,sizeof(sockaddr_in));
 		sintcp.sin_family = AF_INET;
@@ -55,10 +57,12 @@ bool WifibotClient::ConnectToRobot(char* ip,int port)
 			lphost = gethostbyname(szServerAddress);
 			if (lphost != NULL)
 				sintcp.sin_addr.s_addr = ((LPIN_ADDR)lphost->h_addr)->s_addr;
+#ifdef WIN32
 			else
 			{
 				WSASetLastError(WSAEINVAL);
 			}
+#endif
 		}
 		sintcp.sin_port = htons(iPort);
 		// Open the socket
@@ -622,7 +626,9 @@ void WifibotClient::Thread_TCP_Trooper_In(void)
 
 	// Source address of echo
 	SOCKADDR_IN fromAddr;   
+#ifdef WIN32
 	WSAStartup(MAKEWORD(2,2),&wsaOut);
+#endif
 	if (sockOut) closesocket(sockOut);
 	sockOut=socket(AF_INET,SOCK_DGRAM,0);//On initialise le socket avec SOCK_DGRAM pour dire qu'on est en UDP
 
@@ -676,7 +682,9 @@ DWORD WINAPI WifibotClient::Thread_TCP_Trooper_In(LPVOID p)
 
 void WifibotClient::Thread_TCP_Trooper_Out(void) 
 {
+#ifdef WIN32
 	WSAStartup(MAKEWORD(2,2),&wsa);
+#endif
 	closesocket(sock);
 	sock=socket(AF_INET,SOCK_DGRAM,0);//On initialise le socket avec SOCK_DGRAM pour dire qu'on est en UDP
 
@@ -710,7 +718,9 @@ void WifibotClient::Thread_TCP_Trooper_In(void)
 
 	// Source address of echo
 	SOCKADDR_IN fromAddr;   
+#ifdef WIN32
 	WSAStartup(MAKEWORD(2,2),&wsaOut);
+#endif
 	if (sockOut) closesocket(sockOut);
 	sockOut=socket(AF_INET,SOCK_DGRAM,0);//On initialise le socket avec SOCK_DGRAM pour dire qu'on est en UDP
 
@@ -778,7 +788,9 @@ DWORD WINAPI WifibotClient::Thread_TCP_Trooper_In(LPVOID p)
 
 void WifibotClient::Thread_TCP_Trooper_Out(void) 
 {
+#ifdef WIN32
 	WSAStartup(MAKEWORD(2,2),&wsa);
+#endif
 	closesocket(sock);
 	sock=socket(AF_INET,SOCK_DGRAM,0);//On initialise le socket avec SOCK_DGRAM pour dire qu'on est en UDP
 
