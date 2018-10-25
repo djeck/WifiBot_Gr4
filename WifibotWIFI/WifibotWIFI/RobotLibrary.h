@@ -1,5 +1,3 @@
-#include <math.h>
-
 #include "WifibotClient.h"
 
 //#pragma once 
@@ -55,6 +53,7 @@ public:
 	void stop();
 	SensorData* getData();
 	void processOdometry();
+	void processOdometry2();
 	WifibotClient* getClient();
 	
 	double getX();
@@ -64,8 +63,18 @@ public:
 private: 
 	WifibotClient robot;
 	SensorData sensors_data;
-	double x, y;
+	double x = 0;
+	double y = 0;
 	long old_r, old_l;
-	double orientation;
+	double orientation = 0;
 	int compteur;
+
+	double old_odoG = 0;
+	double old_odoD = 0;
+
+	double meas_odoG = 0;
+	double meas_odoD = 0;
+
+	double radG = 0;
+	double radD = 0;
 };

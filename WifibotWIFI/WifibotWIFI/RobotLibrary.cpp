@@ -1,4 +1,6 @@
 #include "RobotLibrary.h"
+#define _USE_MATH_DEFINES
+#include <cmath>
 
 RobotLibrary::RobotLibrary(): robot()
 {
@@ -21,6 +23,9 @@ RobotLibrary::RobotLibrary(): robot()
 	y = 0.0;
 	orientation=0.0;
 	compteur = 0;
+
+	old_odoG = sensors_data.OdometryLeft;
+	old_odoD = sensors_data.OdometryRight;
 }
 
 void RobotLibrary::move(int right, int left) {
@@ -54,7 +59,7 @@ void RobotLibrary::processOdometry() {
 	if (r == l) {
 		l += 1;
 	}
-	double R = (E / 2 * (r + l) / (r - l));
+	double R = (E / 2) * (r + l) / (r - l);
 	double alpha = d/R;
 	/*if (l == 0)
 		alpha = -3.141592654 / 2;
@@ -73,6 +78,30 @@ void RobotLibrary::processOdometry() {
 	old_l = sensors_data.OdometryLeft;
 }
 
+void RobotLibrary::processOdometry2() {
+
+	double R = 14.5; // Rayon de chaque roue
+	double V = 30.0; // Voie du robot (écart entre les deux roues)
+	
+	meas_odoG = sensors_data.OdometryLeft - old_odoG;
+	meas_odoD = sensors_data.OdometryRight - old_odoD;
+
+	radG = 0.02574021 * meas_odoG; // radG et radD représente la distance parcourue en radian des roues gauche et droite respectivement
+	radD = 0.025719138 * meas_odoD; // VALEURS ENVOYEES PAR LES ODOMETRES EN DISTANCE A PRECISER APRES EXPERIMENTATION
+
+	x += (R / 2) * (radG + radD) * cos(orientation);
+	y += (R / 2) * (radG + radD) * sin(orientation);
+	orientation += (R / V) * (radG - radD);
+	printf("x : %.2f\n", x);
+	printf("y : %.2f\n", y);
+	printf("O : %.2f\n", fmod(orientation, (2*M_PI))*(180/M_PI));
+	printf("odo gauche: %d \n", sensors_data.OdometryLeft);
+	printf("odo droit: %d \n", sensors_data.OdometryRight);
+	 
+	old_odoG = sensors_data.OdometryLeft;
+	old_odoD = sensors_data.OdometryRight;
+}
+
 double RobotLibrary::getX() {
 	return x;
 }
@@ -88,7 +117,7 @@ double RobotLibrary::getOrientation() {
 void RobotLibrary::updateSensorData() {
 	robot.GetSensorData(&sensors_data);
 	
-	processOdometry();
+	//processOdometry();
 }
 
 bool RobotLibrary::obstableDroite() {
