@@ -151,3 +151,7 @@ int RobotLibrary::getDistance(side_IRSens side, int *LUT)
 SensorData* RobotLibrary::getData() {
 	return &sensors_data;
 }
+	
+SensorData* RobotLibrary::getData() {
+	return &sensors_data;
+}
