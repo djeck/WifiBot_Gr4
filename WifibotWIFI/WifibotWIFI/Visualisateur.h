@@ -22,4 +22,4 @@ private:
 
 };
 
-#endif # VISUALISATEUR_HPP
+#endif // VISUALISATEUR_HPP
