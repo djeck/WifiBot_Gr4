@@ -8,6 +8,11 @@
 #ifndef WIFIBOTCLIENT_H
 #define WIFIBOTCLIENT_H
 
+#include <iostream>
+#include <stdlib.h>
+#include <stdio.h>
+#include <cstring>
+
 #ifdef WIN32
 
 #include <winsock2.h>
@@ -72,8 +77,8 @@ private:
 	void end(void);
 	int init_connection();
 	void end_connection();
-	int read_server(char *buffer);
-	void write_server(const char *buffer);
+	int read_server(unsigned char *buffer);
+	void write_server(const unsigned char *buffer);
 
 	short Crc16(unsigned char *Adresse_tab , unsigned char Taille_max);
 

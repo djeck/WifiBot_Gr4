@@ -41,7 +41,7 @@ void WifibotClient::GetSensorData(SensorData* RobotSensors)
 	unsigned char rcvbuftemp[BUF_SIZE];
 
 	// Utilisation d'un buffer intermediaire
-	memcpy(rcvbuftemp,rcvbuf, BUF_SIZE-2);
+	std::memcpy(rcvbuftemp,rcvbuf, BUF_SIZE-2);
 
 	// Verification d'integrite des paquets
 	short mycrcrcv = (short)((rcvbuftemp[20] << 8) + rcvbuftemp[19]);
@@ -227,13 +227,23 @@ short WifibotClient::Crc16(unsigned char *Adresse_tab , unsigned char Taille_max
 }
 
 /*
+ * @brief redefinition de strlen pour les caracteres non signes
+ */
+size_t ustrlen(const unsigned char *buffer)
+{
+	int i=0;
+	while(buffer[i] != 0) i++;
+	return i;
+}
+
+/*
  * @brief envoie de donnees au serveur
  * la connection doit etre prealablement initialisee
  * dans la classe (attribut m_sock)
  */
-void WifibotClient::write_server(const char *buffer)
+void WifibotClient::write_server(const unsigned char *buffer)
 {
-   if(send(m_sock, buffer, strlen(buffer), 0) < 0)
+   if(send(m_sock, buffer, BUF_SIZE-1, 0) < 0)
    {
       std::cout<<"Send Error"<<std::endl;
       perror("send()");
@@ -246,7 +256,7 @@ void WifibotClient::write_server(const char *buffer)
  * la connection doit etre prealablement initialisee
  * dans la classe (attribut m_sock)
  */
-int WifibotClient::read_server(char *buffer)
+int WifibotClient::read_server(unsigned char *buffer)
 {
 	int n = 0;
 
