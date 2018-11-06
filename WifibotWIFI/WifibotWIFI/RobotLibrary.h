@@ -22,30 +22,53 @@ enum side_IRSens { RIGHT, LEFT };
  */
 class RobotLibrary {
 public: 
+
 	/*
 	 * @brief Connection au robot et initialisation
 	 */
 	RobotLibrary();
+
+
 	/*
 	 * @brief Reception des donnees des capteurs
 	 */
 	void updateSensorData();
+
+
 	/*
 	 * @brief Deplacement du robot
 	 * @arg right vitesse de rotation de la roue droite
 	 * @arg left vitesse de rotation de la roue gauche
 	 */
 	void move(int right, int left);
+
+
+	/*
+	* @brief Initialise les odomètres à 0.
+	*/
+	void initializeOdometry();
+
+
+	/*
+	* @brief Algorithme de déplacement impliquant toutes les conditions de détection d'obstacle et de déplacement 
+	*/
+	void algorithm();
+
+
 	/*
 	 * @brief Detection d'obstacle avec le capteur IR droit
 	 * @return true si un obstacle est detecter, false sinon
 	 */
 	bool obstableDroite();
+
+
 	/*
 	 * @brief Detection d'obstacle avec le capteur IR gauche
 	 * @return true si un obstacle est detecter, false sinon
 	 */
 	bool obstacleGauche();
+
+
 	void forward();
 	void backward();
 	void left();

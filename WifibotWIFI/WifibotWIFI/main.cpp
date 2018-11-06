@@ -17,70 +17,23 @@ int main(void)
 	/* Connection to the robot */
 	/*.........................*/
 	RobotLibrary library;
-	int i = 0;
-
 	/*..............*/
 	/* Main program */
 	/*..............*/
 
+	library.initializeOdometry();
+
+	int i = 0;
+
 	while (1)
 	{
 		library.updateSensorData();
-		//library.move(0, 0);
-		//printf("Batterie : %d\n", library.getData()->BatVoltage); 
+		library.stop();
 		system("cls");
 		printf("===== data %d: \n", i);
 		printf("Capteur IR distance gauche : %dcm\n", library.getDistance(LEFT, SharpLUT));
 		printf("Capteur IR distance droit : %dcm\n", library.getDistance(RIGHT, SharpLUT));
-		/*printf("Capteur IR distance gauche : %dcm\n", SharpLUT[library.getData()->IRLeft]);
-		printf("Capteur IR distance droit : %dcm\n", SharpLUT[library.getData()->IRRight]);
-		/*printf("Vitesse droite : %d\n", library.getData()->SpeedFrontRight);
-		printf("Odometrie roue droite : %ld\n", library.getData()->OdometryRight);
-		printf("Odometrie roue gauche : %ld\n", library.getData()->OdometryLeft);
-		printf("X : %f\n", library.getX());
-		printf("Y : %f\n", library.getY());
-
-		if (library.obstacleGauche() && library.obstableDroite())
-			library.move(0, 0);
-		else if (library.obstableDroite())
-			library.move(50, 0);
-		else if (library.obstacleGauche())
-			library.move(0, 50);
-
-		*/
-		//library.obstacleGauche()
-
-		/***
-		if ((library.getDistance(LEFT, SharpLUT) <= 80 && library.getDistance(LEFT, SharpLUT) > 60) || (library.getDistance(RIGHT, SharpLUT) <= 80 && library.getDistance(RIGHT, SharpLUT) < 60))
-		{
-			library.move(50, 50);
-		}
-		else if ((library.getDistance(LEFT, SharpLUT) <= 60 && library.getDistance(LEFT, SharpLUT) > 45) || (library.getDistance(RIGHT, SharpLUT) <= 60 && library.getDistance(RIGHT, SharpLUT) < 45))
-		{
-			library.move(20, 20);
-		}
-		***/
-		if ((library.getDistance(LEFT, SharpLUT) <= 60) && (library.getDistance(RIGHT, SharpLUT) <= 60))
-		{
-			library.move(0, 0);
-			printf("STOP");
-		}
-		else if ((library.getDistance(LEFT, SharpLUT) <= 60) && (library.getDistance(RIGHT, SharpLUT) >= 60))
-		{
-			library.move(-30, 30);
-			printf("LEFT");
-		}
-		else if ((library.getDistance(LEFT, SharpLUT) >= 60) && (library.getDistance(RIGHT, SharpLUT) <= 60))
-		{
-			library.move(30, -30);
-			printf("RIGHT");
-		}
-		else if ((library.getDistance(LEFT, SharpLUT) > 60) || (library.getDistance(RIGHT, SharpLUT) > 60))
-		{
-			library.move(30, 30);
-			printf("FORWARD");
-		}
-
+		library.processOdometry2();
 		i++;
 	}
 	return 0;

@@ -37,6 +37,15 @@ void RobotLibrary::move(int right, int left) {
 	robot.SendCommand(r, l, flags);
 }
 
+void RobotLibrary::initializeOdometry(){
+	sensors_data.OdometryRight = 0;
+	sensors_data.OdometryRight = 0;
+}
+
+void RobotLibrary::algorithm() {
+
+}
+
 WifibotClient* RobotLibrary::getClient()
 {
 	return &robot;
@@ -95,8 +104,8 @@ void RobotLibrary::processOdometry2() {
 	printf("x : %.2f\n", x);
 	printf("y : %.2f\n", y);
 	printf("O : %.2f\n", fmod(orientation, (2*M_PI))*(180/M_PI));
-	printf("odo gauche: %d \n", sensors_data.OdometryLeft);
-	printf("odo droit: %d \n", sensors_data.OdometryRight);
+	printf("odomètre gauche: %d \n", sensors_data.OdometryLeft);
+	printf("odomètre droit: %d \n", sensors_data.OdometryRight);
 	 
 	old_odoG = sensors_data.OdometryLeft;
 	old_odoD = sensors_data.OdometryRight;
