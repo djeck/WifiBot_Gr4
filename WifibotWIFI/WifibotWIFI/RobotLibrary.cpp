@@ -15,7 +15,7 @@ RobotLibrary::RobotLibrary(): robot()
 		{
 			printf("Connection established...\n");
 		}
-		
+
 	//initialisation odometrie
 		old_r = 0;// sensors_data.OdometryRight;
 		old_l = 0;// sensors_data.OdometryLeft;
@@ -31,7 +31,7 @@ RobotLibrary::RobotLibrary(): robot()
 void RobotLibrary::move(int right, int left) {
 	unsigned char flags = 128 + 32 + ((left>=0) ? 1 : 0) * 64 + ((right>=0) ? 1 : 0)*16 + 1;
 	int r, l;
-	
+
 	r = abs((int)(255 * right / 100.f));
 	l = abs((int)(255 * left / 100.f));
 	robot.SendCommand(r, l, flags);
@@ -43,8 +43,69 @@ void RobotLibrary::initializeOdometry(){
 }
 
 void RobotLibrary::algorithm() {
+    while(x<100.0){ // 100.0 means 10 meters
+        if (!RobotLibrary::obstacleGauche() && !RobotLibrary::obstableDroite())
+            RobotLibrary::forward();
+        else{
+            if (RobotLibrary::obstacleDroite()){
+                RobotLibrary::algorithmObstacleRight();
+            }
 
+            if (RobotLibrary::obstacleGauche()){
+                RobotLibrary::algorithmObstacleLeft();
+            }
+
+            while (RobotLibrary::obstacleDroite() && RobotLibrary::obstacleGauche()){
+                if (y < 0){
+                    RobotLibrary::algorithmObstacleLeft();
+                }
+                else{
+                    RobotLibrary::algorithmObstacleRight();
+                }
+            }
+        }
+    }
+    RobotLibrary::stop();
 }
+
+void RobotLibrary::algorithmObstacleRight(){
+    while (RobotLibrary::obstacleDroite()){
+        RobotLibrary::left(); // Might turn 90°
+        RobotLibrary::forward(); // Might advance N cm
+        RobotLibrary::right();
+        if (!RobotLibrary::obstacleDroite()){
+            break;
+        }
+    }
+    RobotLibrary::forward(); // Might advance N cm
+    RobotLibrary::right(); // Might turn 90°
+    if (!RobotLibrary::obstacleDroite() || !RobotLibrary::obstacleGauche())
+        while(y>0){
+            RobotLibrary::forward();
+        }
+        RobotLibrary::left(); // Might turn 90°
+        break;
+}
+
+void RobotLibrary::algorithmObstacleLeft(){
+    while (RobotLibrary::obstacleGauche()){
+        RobotLibrary::right(); // Might turn 90°
+        RobotLibrary::forward(); // Might advance N cm
+        RobotLibrary::left();
+        if (!RobotLibrary::obstacleGauche()){
+            break;
+        }
+    }
+    RobotLibrary::forward(); // Might advance N cm
+    RobotLibrary::left(); // Might turn 90°
+    if (!RobotLibrary::obstacleDroite() || !RobotLibrary::obstacleGauche())
+        while(y<0){
+            RobotLibrary::forward();
+        }
+        RobotLibrary::right(); // Might turn 90°
+        break;
+}
+
 
 WifibotClient* RobotLibrary::getClient()
 {
@@ -81,7 +142,7 @@ void RobotLibrary::processOdometry() {
 	printf("Orientation : %f\n", orientation);
 	x += d*cos(orientation);
 	y += d*sin(orientation);
-	
+
 	// doivent etre remis a 0
 	old_r = sensors_data.OdometryRight;
 	old_l = sensors_data.OdometryLeft;
@@ -91,7 +152,7 @@ void RobotLibrary::processOdometry2() {
 
 	double R = 14.5; // Rayon de chaque roue
 	double V = 30.0; // Voie du robot (écart entre les deux roues)
-	
+
 	meas_odoG = sensors_data.OdometryLeft - old_odoG;
 	meas_odoD = sensors_data.OdometryRight - old_odoD;
 
@@ -106,7 +167,7 @@ void RobotLibrary::processOdometry2() {
 	printf("O : %.2f\n", fmod(orientation, (2*M_PI))*(180/M_PI));
 	printf("odomètre gauche: %d \n", sensors_data.OdometryLeft);
 	printf("odomètre droit: %d \n", sensors_data.OdometryRight);
-	 
+
 	old_odoG = sensors_data.OdometryLeft;
 	old_odoD = sensors_data.OdometryRight;
 }
@@ -125,7 +186,7 @@ double RobotLibrary::getOrientation() {
 
 void RobotLibrary::updateSensorData() {
 	robot.GetSensorData(&sensors_data);
-	
+
 	//processOdometry();
 }
 

@@ -1,12 +1,12 @@
 #include "WifibotClient.h"
 
-//#pragma once 
+//#pragma once
 
 #define WHEELS_FORWARD 50
 #define WHEELS_BACKWARD -50
 #define WHEELS_DEFAULT 0
 
-#define UINT8_t unsigned char 
+#define UINT8_t unsigned char
 #define IP_ADRESSE "192.168.1.77"
 #define PORT	15020
 
@@ -21,7 +21,7 @@ enum side_IRSens { RIGHT, LEFT };
  * du robot (deplacement, capteurs, ...)
  */
 class RobotLibrary {
-public: 
+public:
 
 	/*
 	 * @brief Connection au robot et initialisation
@@ -50,10 +50,11 @@ public:
 
 
 	/*
-	* @brief Algorithme de déplacement impliquant toutes les conditions de détection d'obstacle et de déplacement 
+	* @brief Algorithme de déplacement impliquant toutes les conditions de détection d'obstacle et de déplacement
 	*/
 	void algorithm();
-
+    void algorithmObstacleRight();
+    void algorithmObstacleLeft();
 
 	/*
 	 * @brief Detection d'obstacle avec le capteur IR droit
@@ -78,12 +79,12 @@ public:
 	void processOdometry();
 	void processOdometry2();
 	WifibotClient* getClient();
-	
+
 	double getX();
 	double getY();
 	double getOrientation();
 	int getDistance(enum side_IRSens side, int *LUT);
-private: 
+private:
 	WifibotClient robot;
 	SensorData sensors_data;
 	double x = 0;
